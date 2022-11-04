@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "nonebot-plugin-animeres"
+version = "0.1.0"
+description = "动漫资源获取插件"
+authors = ["MelodyKnit <2711402357@qq.com>"]
+readme = "README.md"
+packages = [{include = "nonebot_plugin_animeres"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+aiohttp = "^3.8.3"
+lxml = "^4.9.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

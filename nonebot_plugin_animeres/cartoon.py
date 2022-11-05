@@ -2,12 +2,10 @@ from typing import List, Optional, Callable
 from aiohttp import ClientSession, TCPConnector
 from lxml import etree
 from nonebot.log import logger
-from nonebot import get_driver
 
-from .config import Cartoon, Cartoons, Config
+from .config import Cartoon, Cartoons, global_config
 
 methods: List[Callable] = []
-global_config = Config(**get_driver().config.dict())
 
 
 async def GetCartoons(name: str) -> Optional[Cartoons]:

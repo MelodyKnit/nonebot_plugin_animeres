@@ -14,12 +14,11 @@
 ## 配置参数
 
 ```env
-CARTOON_PROXY="127.0.0.1:1080"  # 设置代理端口
-CARTOON_FORWARD=false           # 合并转发的形式发送消息
-CARTOON_LENGTH=3                # 每次发送的数量
+CARTOON_PROXY="127.0.0.1:1080"        # 设置代理端口
+CARTOON_FORWARD=false                 # 合并转发的形式发送消息
+CARTOON_LENGTH=3                      # 每次发送的数量
+CARTOON_FORMANT="{title}\n{magnet}"   # 发送的消息格式化
 ```
-
-
 
 ### CARTOON_PROXY
 
@@ -30,3 +29,14 @@ CARTOON_LENGTH=3                # 每次发送的数量
 用来发送合并消息
 
 ![合并消息转发](image/forward.png)
+
+### CARTOON_FORMANT
+
+格式化字符串
+
+| 标签 | 说明 |
+|---|---|
+| title | 资源名称 |
+| tag | 资源标签类型 |
+| size | 资源大小 |
+| magnet | 种子链接 |

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Union, Generator, overload
 from pydantic import BaseModel
+from nonebot import get_driver
 
 
 try:
@@ -13,6 +14,9 @@ class Config(BaseModel):
     cartoon_proxy: Optional[str] = None
     cartoon_forward: bool = False
     cartoon_length: int = 3
+    cartoon_formant: str = "{title}\n{magnet}"
+
+global_config = Config(**get_driver().config.dict())
 
 
 @dataclass
@@ -23,6 +27,9 @@ class Cartoon:
     size: Optional[str] = None
     link: Optional[str] = None
     magnet: str = ""
+
+    def to_string(self) -> str:
+        return global_config.cartoon_formant.format(self.__dict__)
 
 
 class Cartoons:
@@ -102,7 +109,7 @@ class Cartoons:
             "data": {
                 "name": "使用迅雷等bit软件下载",
                 "uin": uin,
-                "content": Message(f"{i.title}\n{i.magnet}")
+                "content": Message(i.to_string())
                 }
             } for i in anime or self]
     

@@ -33,7 +33,7 @@ async def _(bot: Bot, matcher: Matcher, event: MessageEvent, state: T_State, ind
     if animes := cartoons.get((int(index) - 1) if index.isdigit() else index):
         animes = animes[:global_config.cartoon_length]
         if not global_config.cartoon_forward:   # 不发送合并转发
-            await matcher.finish("\n\n".join([f"{a.title}\n{a.magnet}" for a in animes]))
+            await matcher.finish("\n\n".join(a.to_string() for a in animes))
         elif isinstance(event, GroupMessageEvent):  # 群合并转发
             await bot.call_api(
                 "send_group_forward_msg", 

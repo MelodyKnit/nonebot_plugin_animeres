@@ -32,20 +32,14 @@ async def _(bot: Bot, matcher: Matcher, event: MessageEvent, state: T_State, ind
     cartoons: Cartoons = state["res"]
     if animes := cartoons.get((int(index) - 1) if index.isdigit() else index):
         animes = animes[:global_config.cartoon_length]
-        if not global_config.cartoon_forward:   # 不发送合并转发
-            await matcher.finish("\n\n".join(a.to_string() for a in animes))
-        elif isinstance(event, GroupMessageEvent):  # 群合并转发
-            await bot.call_api(
-                "send_group_forward_msg", 
-                group_id=event.group_id,
-                messages=animes.forward_msg(event.self_id)
-            )
-        elif isinstance(event, PrivateMessageEvent):    # 私聊合并转发
-            await bot.call_api(
-                "send_private_forward_msg",
-                user_id=event.user_id,
-                messages=animes.forward_msg(event.self_id)
-            )
+        if global_config.cartoon_forward:   # 发送合并转发
+            forward_msg = await animes.forward_msg(event.self_id)
+            if isinstance(event, GroupMessageEvent):  # 群合并转发
+                await bot.call_api("send_group_forward_msg", group_id=event.group_id, messages=forward_msg)
+            elif isinstance(event, PrivateMessageEvent):    # 私聊合并转发
+                await bot.call_api("send_private_forward_msg", user_id=event.user_id, messages=forward_msg)
+        else:   # 纯消息文本
+            await matcher.finish("\n\n".join([await a.to_string() for a in animes]))
     else:
         await matcher.finish("没有找到你要的东西...")
 

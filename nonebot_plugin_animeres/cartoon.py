@@ -27,7 +27,7 @@ async def GetCartoons(keyword: str) -> Optional["Cartoons"]:
         Cartoons: 资源列表
     """
     for method in methods:
-        async with ClientSession(method.base_url, connector=TCPConnector(ssl=False), trust_env=True) as session:
+        async with ClientSession(base_url=method.base_url, connector=TCPConnector(ssl=False), trust_env=True) as session:
             try:
                 if cartoons := await method(session)(keyword):
                     return cartoons

@@ -5,10 +5,10 @@ from .cartoon import BaseMethod, add_method, Cartoon, Cartoons
 @add_method
 class DMHY(BaseMethod):
     name: str = "动漫花园"
-    url: str = "https://dmhy.anoneko.com/topics/list"
+    base_url: str = "https://dmhy.anoneko.com"
 
     async def __call__(self, keyword: str) -> Cartoons:
-        async with self.session.get(self.url, params={"keyword": keyword}) as res:
+        async with self.session.get("/topics/list", params={"keyword": keyword}) as res:
             data: List[etree._Element] = etree.HTML(await res.text(), etree.HTMLParser()).xpath("//table[@class='tablesorter']//tbody//tr")
             return Cartoons(Cartoon(
                 title=value.xpath("string(./td[@class='title'])").replace("\n", ""),

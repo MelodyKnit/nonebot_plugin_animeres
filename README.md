@@ -4,7 +4,13 @@
 
 ## 安装
 
-`pip install nonebot-plugin-animeres`
+> `nb plugin install nonebot-plugin-animeres`
+
+<details>
+  <summary>使用pip安装</summary>
+
+  `pip install nonebot-plugin-animeres`
+</details>
 
 - 命令
   - `资源`、`动漫资源`
@@ -14,7 +20,7 @@
 ## 配置参数
 
 ```env
-CARTOON_PROXY="127.0.0.1:1080"        # 设置代理端口
+CARTOON_PROXY=                        # 设置代理端口
 CARTOON_FORWARD=false                 # 合并转发的形式发送消息
 CARTOON_LENGTH=3                      # 每次发送的数量，用-1表示全部取出
 CARTOON_FORMANT="{title}\n{magnet}"   # 发送的消息格式化

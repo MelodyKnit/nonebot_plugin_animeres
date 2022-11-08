@@ -119,7 +119,7 @@ class Cartoons:
         try:
             key = self.keys[key] if isinstance(key, int) else key
             return Cartoons(self.sort[key])
-        except IndexError:
+        except (IndexError, KeyError):
             return None
 
     def __iter__(self) -> Generator[Cartoon, None, None]:

@@ -4,7 +4,7 @@
 
 ## 安装
 
-> `nb plugin install nonebot-plugin-animeres`
+`nb plugin install nonebot-plugin-animeres`
 
 <details>
   <summary>使用pip安装</summary>

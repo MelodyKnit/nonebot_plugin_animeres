@@ -2,8 +2,7 @@ from aiohttp import ClientSession, TCPConnector
 from nonebot.log import logger
 from importlib import __import__
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Union, Generator, overload, Type, Iterable, Sequence, Callable
-from collections import Awaitable
+from typing import Any, Dict, List, Optional, Union, Generator, overload, Type, Iterable, Sequence, Callable, Awaitable
 
 from .config import global_config, BaseModel, Config
 

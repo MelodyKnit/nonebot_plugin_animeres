@@ -20,7 +20,10 @@ async def _(matcher: Matcher, state: T_State, param: str = ArgPlainText()):
     try:
         if res := await GetCartoons(param):
             state["res"] = res
-            await matcher.send(f"你要哪种？\n" + '\n'.join(f'{i}:{v}' for i, v in enumerate(res.keys, 1)))
+            if res.one_skip():
+                matcher.set_arg("index", Message("1"))
+            else:
+                await matcher.send(f"你要哪种？\n" + '\n'.join(f'{i}:{v}' for i, v in enumerate(res.keys, 1)))
         else:
             await matcher.finish("没有找到你想要的，看看是不是打错了吧！")
     except ClientConnectorError as err:

@@ -73,6 +73,14 @@ class Cartoons:
         self.cartoons: List[Cartoon] = []
         self.sort: Dict[str, List[Cartoon]] = {}    # 分类
         self.add(*cartoons or ())
+    
+    def one_skip(self):
+        """当番剧类型只有一个的时候，跳过选项
+
+        Returns:
+            bool: True表示跳过
+        """
+        return len(self.keys) == 1 and global_config.cartoon_oneskip
 
     def __repr__(self) -> str:
         return str(self.cartoons)

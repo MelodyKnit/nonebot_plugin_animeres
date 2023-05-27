@@ -2,7 +2,20 @@ from aiohttp import ClientSession, TCPConnector
 from nonebot.log import logger
 from importlib import __import__
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional, Union, Generator, overload, Type, Iterable, Sequence, Callable, Awaitable
+from typing import (
+    Any,
+    Dict,
+    List,
+    Optional,
+    Union,
+    Generator,
+    overload,
+    Type,
+    Iterable,
+    Sequence,
+    Callable,
+    Awaitable,
+)
 
 from .config import global_config, BaseModel, Config
 
@@ -21,12 +34,14 @@ def add_method(func: Type["BaseMethod"]):
 
 async def GetCartoons(keyword: str) -> Optional["Cartoons"]:
     """获取对应的资源
- 
+
     Returns:
         Cartoons: 资源列表
     """
     for method in methods:
-        async with ClientSession(base_url=method.base_url, connector=TCPConnector(ssl=False), trust_env=True) as session:
+        async with ClientSession(
+            base_url=method.base_url, connector=TCPConnector(ssl=False), trust_env=True
+        ) as session:
             try:
                 if cartoons := await method(session)(keyword):
                     return cartoons
@@ -41,11 +56,12 @@ C_Cartoon = Optional[Callable[["Cartoon"], Awaitable[Optional[str]]]]
 
 class Cartoon(BaseModel):
     """资源"""
-    title: str                  # 标题
-    tag: str                    # 用于分类的标签
+
+    title: str  # 标题
+    tag: str  # 用于分类的标签
     size: Optional[str] = None  # 大小
     link: Optional[str] = None  # 跳转链接
-    magnet: str = ""            # 种子链接
+    magnet: str = ""  # 种子链接
     callable: C_Cartoon = None
 
     def to_string_callable(self, func: C_Cartoon):
@@ -65,15 +81,16 @@ class Cartoon(BaseModel):
 
 class Cartoons:
     """多个资源"""
+
     _keys: Optional[List[str]] = None
 
-    def __init__(self, 
-                 cartoons: Optional[Union[Sequence[Cartoon], Iterable[Cartoon]]] = None
-                 ):
+    def __init__(
+        self, cartoons: Optional[Union[Sequence[Cartoon], Iterable[Cartoon]]] = None
+    ):
         self.cartoons: List[Cartoon] = []
-        self.sort: Dict[str, List[Cartoon]] = {}    # 分类
+        self.sort: Dict[str, List[Cartoon]] = {}  # 分类
         self.add(*cartoons or ())
-    
+
     def one_skip(self):
         """当番剧类型只有一个的时候，跳过选项
 
@@ -101,23 +118,25 @@ class Cartoons:
         for cartoon in cartoons:
             self.cartoons.append(cartoon)
             sort = self.sort.get(cartoon.tag)
-            if sort is None:    # 当该资源类型不存在时刷新keys
+            if sort is None:  # 当该资源类型不存在时刷新keys
                 self._keys = None
                 self.sort[cartoon.tag] = []
             self.sort[cartoon.tag].append(cartoon)
 
     @overload
-    def __getitem__(self, value: int) -> Cartoon: ...
+    def __getitem__(self, value: int) -> Cartoon:
+        ...
+
     @overload
-    def __getitem__(self, value: slice) -> "Cartoons": ...
+    def __getitem__(self, value: slice) -> "Cartoons":
+        ...
+
     def __getitem__(self, value: Union[int, slice]) -> Union[Cartoon, "Cartoons"]:
         if isinstance(value, int):
             return self.cartoons[value]
         return Cartoons(self.cartoons[value])
 
-    def get(self, 
-            key: Union[int, str]
-            ) -> Optional["Cartoons"]:
+    def get(self, key: Union[int, str]) -> Optional["Cartoons"]:
         """获取资源
 
         Returns:
@@ -132,10 +151,11 @@ class Cartoons:
     def __iter__(self) -> Generator[Cartoon, None, None]:
         yield from self.cartoons
 
-    async def forward_msg(self, 
-                    uin: int, 
-                    anime: Optional["Cartoons"] = None,
-                    ) -> List[Dict[str, Any]]:
+    async def forward_msg(
+        self,
+        uin: int,
+        anime: Optional["Cartoons"] = None,
+    ) -> List[Dict[str, Any]]:
         """合并转发
 
         Args:
@@ -145,15 +165,18 @@ class Cartoons:
         Returns:
             List[dict]: 合并转发内容
         """
-        return [{
-            "type": "node",
-            "data": {
-                "name": "使用迅雷等bit软件下载",
-                "uin": uin,
-                "content": Message(await i.to_string())
-                }
-            } for i in anime or self]
-    
+        return [
+            {
+                "type": "node",
+                "data": {
+                    "name": "使用迅雷等bit软件下载",
+                    "uin": uin,
+                    "content": Message(await i.to_string()),
+                },
+            }
+            for i in anime or self
+        ]
+
     def __bool__(self) -> bool:
         return bool(self.cartoons)
 
@@ -167,12 +190,12 @@ class BaseMethod(ABC):
     def proxy(self) -> Optional[str]:
         return self.config.cartoon_proxy
 
-    def __init__(self, session: ClientSession): 
+    def __init__(self, session: ClientSession):
         self.session: ClientSession = session
 
     @abstractmethod
-    async def __call__(self, keyword: str) -> Cartoons: ...
+    async def __call__(self, keyword: str) -> Cartoons:
+        ...
 
 
 from . import functions
-

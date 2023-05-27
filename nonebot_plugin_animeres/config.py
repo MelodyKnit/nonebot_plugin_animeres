@@ -12,4 +12,3 @@ class Config(BaseModel):
 
 
 global_config = Config(**get_driver().config.dict())
-

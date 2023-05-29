@@ -6,7 +6,7 @@ from ..schemas import AnimeRes, Tag
 
 
 class AnimeSearch(BaseAnimeSearch):
-    name: str = "动漫花园"
+    name: str = "anomeko"
     base_url: str = "https://dmhy.anoneko.com"
 
     async def search(self, keyword: str) -> bool:

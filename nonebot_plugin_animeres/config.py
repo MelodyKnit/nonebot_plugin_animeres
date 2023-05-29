@@ -4,7 +4,7 @@ from nonebot import get_driver
 
 
 class Config(BaseModel):
-    animeres_site: str = "动漫花园"
+    animeres_site: Optional[str] = None
     animeres_proxy: Optional[str] = None
     animeres_forward: bool = False
     animeres_length: int = 3

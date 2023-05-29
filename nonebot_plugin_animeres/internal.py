@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 from httpx import AsyncClient
 from .config import plugin_config
@@ -9,7 +9,7 @@ from .schemas import AnimeRes, Tag
 class BaseAnimeSearch(ABC):
     """动漫资源搜索基类"""
 
-    name: Optional[str] = None
+    name: str = ""
     base_url: Optional[str] = None
     _client: Optional[AsyncClient] = None
 
@@ -23,12 +23,15 @@ class BaseAnimeSearch(ABC):
             self._client = AsyncClient(
                 base_url=self.base_url or "",
                 proxies=plugin_config.animeres_proxy,
+                trust_env=True,
+                timeout=600,
             )
         return self._client
 
     @abstractmethod
-    async def search(self, keyword: str) -> bool: 
+    async def search(self, keyword: str) -> bool:
         """搜索
+        在进行搜索时会先调用这个方法，如果返回 True 则会进行 get_tags 和 get_resources 方法
 
         Args:
             keyword (str): 关键字
@@ -40,6 +43,7 @@ class BaseAnimeSearch(ABC):
     @abstractmethod
     async def get_tags(self) -> List[Tag]:
         """获取类型
+        在询问用户需要哪种类型的资源时会调用这个方法
 
         Args:
             keyword (str): 关键字
@@ -58,6 +62,16 @@ class BaseAnimeSearch(ABC):
         Returns:
             List[AnimeRes]: 资源
         """
+
+    def add_resource(self, anime_res: AnimeRes):
+        """添加资源"""
+        self.anime_res.setdefault(anime_res.tag, []).append(anime_res)
+
+    async def get_tag(self, index: str):
+        tags = await self.get_tags()
+        for tag in tags:
+            if tag == index:
+                return tag
 
     def __bool__(self) -> bool:
         return bool(self.anime_res)

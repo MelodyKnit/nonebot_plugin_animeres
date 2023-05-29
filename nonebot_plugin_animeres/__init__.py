@@ -13,7 +13,8 @@ from nonebot.adapters.onebot.v11 import (
     MessageSegment,
 )
 from .config import Config
-from .resources import AnonekoSearch
+from .resources import search
+from .internal import BaseAnimeSearch
 
 anime_res_cmd = on_command("资源", aliases={"动漫资源"})
 
@@ -26,7 +27,24 @@ async def _(state: T_State, msg: Message = CommandArg()):
 
 @anime_res_cmd.got("param", prompt="动漫名字叫什么呀！")
 async def _(matcher: Matcher, state: T_State, param: str = ArgPlainText()):
-    anime_search = AnonekoSearch()
+    if param:
+        anime_search = await search(param)
+        if anime_search:
+            state["anime_search"] = anime_search
+            tags = await anime_search.get_tags()
+            await matcher.send("选择哪种呢？：\n" + "\n".join(repr(tag) for tag in tags))
+        else:
+            await matcher.finish("没有找到相关资源！看看是不是哪里写错了？")
+    else:
+        await matcher.finish()
+
+
+@anime_res_cmd.got("index")
+async def _(bot: Bot, matcher: Matcher, state: T_State, index: str = ArgPlainText()):
+    anime_search: BaseAnimeSearch = state["anime_search"]
+    if tag := await anime_search.get_tag(index):
+        
+        anime_list = await anime_search.get_resources(tag)
 
 
 __helper__ = {

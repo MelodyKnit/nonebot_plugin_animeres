@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional, Callable, Awaitable, Union
-
+from .config import plugin_config
 
 
 class AnimeRes(BaseModel):
@@ -11,6 +11,9 @@ class AnimeRes(BaseModel):
     size: Optional[str] = None  # 大小
     link: Optional[str] = None  # 跳转链接
     magnet: str = ""  # 种子链接
+
+    def to_string(self) -> str:
+        return plugin_config.animeres_format.format(**self.dict())
 
 
 class Tag(BaseModel):
@@ -29,3 +32,6 @@ class Tag(BaseModel):
             return self.id == value
         elif isinstance(value, str):
             return self.name == value
+
+    def __hash__(self) -> int:
+        return hash(self.name)

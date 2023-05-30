@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Extra
-from typing import Optional, Callable, Awaitable, Union
+from typing import Optional, Union
 from .config import plugin_config
 
 

@@ -51,6 +51,3 @@ async def search(keyword: str) -> Optional[BaseAnimeSearch]:
     else:
         logger.error("所有站点资源链接失败，可能站点失效或者查网络连接的原因！")
         return None
-
-
-__all__ = ["AnonekoSearch"]

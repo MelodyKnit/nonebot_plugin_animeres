@@ -1,9 +1,5 @@
 from typing import List
-from nonebot.adapters.onebot.v11 import (
-    GroupMessageEvent,
-    PrivateMessageEvent,
-    MessageEvent,
-)
+from nonebot.adapters import Event
 from .schemas import AnimeRes
 
 
@@ -22,11 +18,11 @@ def forward(user_id: int, anime_res: List[AnimeRes]):
     ]
 
 
-def send_forward(event: MessageEvent, anime_res: List[AnimeRes]):
+def send_forward(event: Event, anime_res: List[AnimeRes]):
     """发送合并转发消息
 
     Args:
-        event (MessageEvent): 消息类型
+        event (Event): OneBot 消息类型
         anime_res (List[AnimeRes]): 动漫资源
 
     Returns:
@@ -39,13 +35,23 @@ def send_forward(event: MessageEvent, anime_res: List[AnimeRes]):
         )
         ```
     """
-    msg: dict = {
-        "message": forward(event.self_id, anime_res),
-    }
-    if isinstance(event, GroupMessageEvent):
-        msg["api"] = "send_group_forward_msg"
-        msg["group_id"] = event.group_id
-    elif isinstance(event, PrivateMessageEvent):
-        msg["api"] = "send_private_forward_msg"
-        msg["user_id"] = event.user_id
-    return msg
+    try:
+        from nonebot.adapters.onebot.v11 import (
+            GroupMessageEvent,
+            PrivateMessageEvent,
+            MessageEvent,
+        )
+
+        if isinstance(event, MessageEvent):
+            msg: dict = {
+                "messages": forward(event.self_id, anime_res),
+            }
+            if isinstance(event, GroupMessageEvent):
+                msg["api"] = "send_group_forward_msg"
+                msg["group_id"] = event.group_id
+            elif isinstance(event, PrivateMessageEvent):
+                msg["api"] = "send_private_forward_msg"
+                msg["user_id"] = event.user_id
+            return msg
+    except ImportError:
+        ...

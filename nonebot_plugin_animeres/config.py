@@ -10,6 +10,7 @@ class Config(BaseModel):
     animeres_length: int = 3
     animeres_format: str = "{title}\n{magnet}"
     animeres_oneskip: bool = True
+    animeres_priority: int = 100
 
 
 plugin_config = Config(**get_driver().config.dict())

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional
 
 from httpx import AsyncClient
 from .config import plugin_config
@@ -41,18 +41,6 @@ class BaseAnimeSearch(ABC):
         """
 
     @abstractmethod
-    async def get_tags(self) -> List[Tag]:
-        """获取类型
-        在询问用户需要哪种类型的资源时会调用这个方法
-
-        Args:
-            keyword (str): 关键字
-
-        Returns:
-            List[Tag]: 类型
-        """
-
-    @abstractmethod
     async def get_resources(self, tag: Tag) -> List[AnimeRes]:
         """获取资源
 
@@ -63,6 +51,18 @@ class BaseAnimeSearch(ABC):
             List[AnimeRes]: 资源
         """
 
+    async def get_tags(self) -> List[Tag]:
+        """获取类型
+        在询问用户需要哪种类型的资源时会调用这个方法
+
+        Args:
+            keyword (str): 关键字
+
+        Returns:
+            List[Tag]: 类型
+        """
+        return [Tag(id=i, name=tag) for i, tag in enumerate(self.anime_res.keys(), 1)]
+
     def add_resource(self, anime_res: AnimeRes):
         """添加资源"""
         self.anime_res.setdefault(anime_res.tag, []).append(anime_res)
@@ -70,7 +70,7 @@ class BaseAnimeSearch(ABC):
     async def get_tag(self, index: str):
         tags = await self.get_tags()
         for tag in tags:
-            if tag == index:
+            if tag == index or index.isdigit() and tag == int(index):
                 return tag
 
     def __bool__(self) -> bool:

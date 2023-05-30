@@ -1,22 +1,18 @@
-from aiohttp import ClientConnectorError
-from nonebot.typing import T_State
 from nonebot import on_command
+from nonebot.typing import T_State
 from nonebot.params import CommandArg, ArgPlainText
 from nonebot.matcher import Matcher
 from nonebot.plugin import PluginMetadata
-from nonebot.adapters.onebot.v11 import (
-    Message,
-    Bot,
-    GroupMessageEvent,
-    PrivateMessageEvent,
-    MessageEvent,
-    MessageSegment,
-)
-from .config import Config
+from nonebot.adapters import Message, Bot, Event
+
+from .config import Config, plugin_config
 from .resources import search
 from .internal import BaseAnimeSearch
+from .utils import send_forward
 
-anime_res_cmd = on_command("资源", aliases={"动漫资源"})
+anime_res_cmd = on_command(
+    "资源", aliases={"动漫资源"}, priority=plugin_config.animeres_priority
+)
 
 
 @anime_res_cmd.handle()
@@ -32,7 +28,7 @@ async def _(matcher: Matcher, state: T_State, param: str = ArgPlainText()):
         if anime_search:
             state["anime_search"] = anime_search
             tags = await anime_search.get_tags()
-            await matcher.send("选择哪种呢？：\n" + "\n".join(repr(tag) for tag in tags))
+            await matcher.send("选择哪种呢？\n" + "\n".join(repr(tag) for tag in tags))
         else:
             await matcher.finish("没有找到相关资源！看看是不是哪里写错了？")
     else:
@@ -40,11 +36,27 @@ async def _(matcher: Matcher, state: T_State, param: str = ArgPlainText()):
 
 
 @anime_res_cmd.got("index")
-async def _(bot: Bot, matcher: Matcher, state: T_State, index: str = ArgPlainText()):
+async def _(
+    bot: Bot,
+    matcher: Matcher,
+    event: Event,
+    state: T_State,
+    index: str = ArgPlainText(),
+):
     anime_search: BaseAnimeSearch = state["anime_search"]
     if tag := await anime_search.get_tag(index):
-        
         anime_list = await anime_search.get_resources(tag)
+        if plugin_config.animeres_length != 0:
+            anime_list = anime_list[: plugin_config.animeres_length]
+        if plugin_config.animeres_forward and bot.adapter.get_name().startswith(
+            "OneBot"
+        ):
+            if forward_msg := send_forward(event, anime_list):
+                await bot.call_api(**forward_msg)
+        else:
+            await matcher.finish("\n\n".join(i.to_string() for i in anime_list))
+    else:
+        await matcher.finish("我有说过有这个选项吗？看看是不是哪里写错了？")
 
 
 __helper__ = {

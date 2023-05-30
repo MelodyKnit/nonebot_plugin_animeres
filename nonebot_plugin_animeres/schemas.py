@@ -1,9 +1,9 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Extra
 from typing import Optional, Callable, Awaitable, Union
 from .config import plugin_config
 
 
-class AnimeRes(BaseModel):
+class AnimeRes(BaseModel, extra=Extra.allow):
     """动漫资源"""
 
     title: str  # 标题
@@ -23,7 +23,7 @@ class Tag(BaseModel):
     name: str  # 类型名称
 
     def __repr__(self) -> str:
-        return f"<{self.id}: {self.name}>"
+        return f"{self.id}. {self.name}"
 
     def __eq__(self, value: Union["Tag", int, str]) -> bool:
         if isinstance(value, Tag):

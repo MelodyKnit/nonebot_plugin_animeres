@@ -20,24 +20,26 @@
 ## 配置参数
 
 ```env
-CARTOON_PROXY=                        # 设置代理端口
-CARTOON_FORWARD=false                 # 合并转发的形式发送消息
-CARTOON_LENGTH=3                      # 每次发送的数量，用-1表示全部取出
-CARTOON_FORMANT="{title}\n{magnet}"   # 发送的消息格式化
-CARTOON_ONESKIP=true                  # 当只有一个选项时跳过
+ANIMERES_PROXY=                        # 设置代理端口
+ANIMERES_FORWARD=false                 # 合并转发的形式发送消息
+ANIMERES_LENGTH=3                      # 每次发送的数量，用-1表示全部取出
+ANIMERES_FORMANT="{title}\n{magnet}"   # 发送的消息格式化
+ANIMERES_ONESKIP=true                  # 当只有一个选项时跳过
+ANIEMRES_PRIORITY=100
+
 ```
 
-### CARTOON_PROXY
+### ANIMERES_PROXY
 
-通过`CARTOON_PROXY`参数可以设置代理来加速资源的获取或者获取不到的情况
+通过`ANIMERES_PROXY`参数可以设置代理来加速资源的获取或者获取不到的情况
 
-### CARTOON_FORWARD
+### ANIMERES_FORWARD
 
 用来发送合并消息
 
 ![合并消息转发](image/forward.png)
 
-### CARTOON_FORMANT
+### ANIMERES_FORMANT
 
 格式化字符串
 

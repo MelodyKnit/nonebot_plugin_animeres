@@ -75,7 +75,14 @@ class BaseAnimeSearch(ABC):
         Returns:
             List[Tag]: 类型
         """
-        return [Tag(id=i, name=tag) for i, tag in enumerate(self.anime_res.keys(), 1)]
+        self.tags = [
+            Tag(id=i, name=tag) for i, tag in enumerate(self.anime_res.keys(), 1)
+        ]
+        return self.tags
+
+    def oneskip(self) -> bool:
+        """如果只有一种类型的资源，跳过选项"""
+        return plugin_config.animeres_oneskip and len(self.tags) == 1
 
     def add_resource(self, anime_res: AnimeRes):
         """添加资源"""

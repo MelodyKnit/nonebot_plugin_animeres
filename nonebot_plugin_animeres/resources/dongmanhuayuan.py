@@ -27,5 +27,4 @@ class AnimeSearch(BaseAnimeSearch):
                 response = await self.client.get(anime.link)
                 html = etree.HTML(response.text, None)
                 anime.magnet = html.xpath("//input[@id='magnet_one']/@value")
-                print(anime)
         return anime_list

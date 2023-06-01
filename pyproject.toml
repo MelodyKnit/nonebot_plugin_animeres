@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-animeres"
-version = "1.0.0"
+version = "1.0.1"
 description = "动漫资源获取插件"
 authors = ["MelodyKnit <2711402357@qq.com>"]
 readme = "README.md"

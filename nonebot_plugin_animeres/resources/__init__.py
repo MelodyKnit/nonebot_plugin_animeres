@@ -3,11 +3,13 @@ from nonebot.log import logger
 
 from httpx import ConnectError
 from .myheartsite import AnimeSearch as MyHeartSiteSearch
+from .dongmanhuayuan import AnimeSearch as DongManHuaYuanSearch
 from ..internal import BaseAnimeSearch
 from ..config import plugin_config
 
 site: Dict[str, Type[BaseAnimeSearch]] = {
     MyHeartSiteSearch.name: MyHeartSiteSearch,
+    DongManHuaYuanSearch.name: DongManHuaYuanSearch,
 }
 
 
@@ -29,6 +31,7 @@ async def search(keyword: str) -> Optional[BaseAnimeSearch]:
             print(anime_list)
         ```
     """
+    print(plugin_config.animeres_site)
     if plugin_config.animeres_site is not None:
         if anime_search := site.get(plugin_config.animeres_site):
             try:

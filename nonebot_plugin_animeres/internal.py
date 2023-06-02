@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List, Optional
+from fake_useragent import UserAgent
 
 from httpx import AsyncClient
 from .config import plugin_config
@@ -16,11 +17,24 @@ class BaseAnimeSearch(ABC):
     def __init__(self) -> None:
         self.tags: List[Tag] = []
         self.anime_res: Dict[str, List[AnimeRes]] = {}
+        self.headers = {
+            "User-Agent": UserAgent().chrome,
+        }
+
+    def set_header(self, key: str, value: str):
+        """修改请求头
+
+        Args:
+            key (str): key
+            value (str): value
+        """
+        self.headers[key] = value
 
     @property
     def client(self) -> AsyncClient:
         if self._client is None:
             self._client = AsyncClient(
+                headers=self.headers,
                 base_url=self.base_url or "",
                 proxies=plugin_config.animeres_proxy,
                 trust_env=True,
@@ -61,7 +75,14 @@ class BaseAnimeSearch(ABC):
         Returns:
             List[Tag]: 类型
         """
-        return [Tag(id=i, name=tag) for i, tag in enumerate(self.anime_res.keys(), 1)]
+        self.tags = [
+            Tag(id=i, name=tag) for i, tag in enumerate(self.anime_res.keys(), 1)
+        ]
+        return self.tags
+
+    def oneskip(self) -> bool:
+        """如果只有一种类型的资源，跳过选项"""
+        return plugin_config.animeres_oneskip and len(self.tags) == 1
 
     def add_resource(self, anime_res: AnimeRes):
         """添加资源"""

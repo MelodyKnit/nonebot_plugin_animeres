@@ -28,7 +28,12 @@ async def _(matcher: Matcher, state: T_State, param: str = ArgPlainText()):
         if anime_search:
             state["anime_search"] = anime_search
             tags = await anime_search.get_tags()
-            await matcher.send("选择哪种呢？\n" + "\n".join(repr(tag) for tag in tags))
+            if anime_search.oneskip():
+                msg: Message = state["param"].copy()
+                msg.clear()
+                matcher.set_arg("index", msg + tags[0].name)
+            else:
+                await matcher.send("选择哪种呢？\n" + "\n".join(repr(tag) for tag in tags))
         else:
             await matcher.finish("没有找到相关资源！看看是不是哪里写错了？")
     else:

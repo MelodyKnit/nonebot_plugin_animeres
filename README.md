@@ -20,7 +20,8 @@
 ## 配置参数
 
 ```env
-ANIMERES_PROXY=                        # 设置代理端口
+ANIMERES_PROXY=""                      # 设置代理端口
+ANIMERES_SITE=""                       # 选择资源站点
 ANIMERES_FORWARD=false                 # 合并转发的形式发送消息
 ANIMERES_LENGTH=3                      # 每次发送的数量，用-1表示全部取出
 ANIMERES_FORMANT="{title}\n{magnet}"   # 发送的消息格式化

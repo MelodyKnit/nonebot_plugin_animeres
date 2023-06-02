@@ -34,6 +34,13 @@ ANIEMRES_PRIORITY=100
 
 通过`ANIMERES_PROXY`参数可以设置代理来加速资源的获取或者获取不到的情况
 
+### ANIMERES_SITE
+
+修改插件站点资源
+
+- `dongmanhuayuan`
+- `myheartsite`
+
 ### ANIMERES_FORWARD
 
 用来发送合并消息

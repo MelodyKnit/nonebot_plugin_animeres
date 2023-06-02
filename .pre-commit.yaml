@@ -16,4 +16,4 @@ repos:
       - id: end-of-file-fixer
       - id: flake8
         entry: flake8
-        args: [--max-line-length=79]
+        args: ["--config=.flake8", "--max-line-length=79"]

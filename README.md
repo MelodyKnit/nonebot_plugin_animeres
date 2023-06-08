@@ -2,6 +2,10 @@
 
 这个插件主要是网站爬取过来的数据，在使用命令进行搜索时候采用关键字的方式，比如`天气之子`这时搜索的是`天气之子`相关资源，如果获取的资源并不理想或者你只需要生肉（无字幕）资源时，你就需要用`天气之子 raw`或`天气之子 mkv`这种多个关键字空格方式进行获取，这种方式准确度会比直接用`天气之子`精准且效果好，建议采用多关键字的方式进行搜索。
 
+## 使用例子
+
+![使用例子](image/demo.png)
+
 ## 安装
 
 `nb plugin install nonebot-plugin-animeres`
@@ -22,7 +26,7 @@
 ```env
 ANIMERES_PROXY=""                      # 设置代理端口
 ANIMERES_SITE=""                       # 选择资源站点
-ANIMERES_FORWARD=false                 # 合并转发的形式发送消息
+ANIMERES_FORWARD=false                 # 适用于QQ的转发形式发送
 ANIMERES_LENGTH=3                      # 每次发送的数量，用-1表示全部取出
 ANIMERES_FORMANT="{title}\n{magnet}"   # 发送的消息格式化
 ANIMERES_ONESKIP=true                  # 当只有一个选项时跳过
@@ -34,16 +38,19 @@ ANIEMRES_PRIORITY=100
 
 通过`ANIMERES_PROXY`参数可以设置代理来加速资源的获取或者获取不到的情况
 
+> ANIMERES_PROXY = `http://127.0.0.1:1080`
+
 ### ANIMERES_SITE
 
-修改插件站点资源
+有些情况下可能某站点关闭或者当前网络访问这个站点不佳可以尝试切换到其它站点，具体可切换站点如下。
 
 - `dongmanhuayuan`
 - `myheartsite`
+- `anoneko`（需要设置代理）
 
 ### ANIMERES_FORWARD
 
-用来发送合并消息
+在QQ中使用的合并转发发送消息
 
 ![合并消息转发](image/forward.png)
 

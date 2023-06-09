@@ -1,5 +1,7 @@
 from typing import List
+
 from nonebot.adapters import Event
+
 from .schemas import AnimeRes
 
 
@@ -37,9 +39,9 @@ def send_forward(event: Event, anime_res: List[AnimeRes]):
     """
     try:
         from nonebot.adapters.onebot.v11 import (
+            MessageEvent,
             GroupMessageEvent,
             PrivateMessageEvent,
-            MessageEvent,
         )
 
         if isinstance(event, MessageEvent):

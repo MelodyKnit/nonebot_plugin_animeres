@@ -1,8 +1,9 @@
-from typing import List, Union
+from typing import List
+
 from lxml import etree
 
+from ..schemas import Tag, AnimeRes
 from ..internal import BaseAnimeSearch
-from ..schemas import AnimeRes, Tag
 
 
 class AnimeSearch(BaseAnimeSearch):

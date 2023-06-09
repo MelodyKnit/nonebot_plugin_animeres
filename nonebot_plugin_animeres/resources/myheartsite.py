@@ -1,7 +1,8 @@
 from typing import List
+
 from ..config import plugin_config
+from ..schemas import Tag, AnimeRes
 from ..internal import BaseAnimeSearch
-from ..schemas import AnimeRes, Tag
 
 
 class AnimeSearch(BaseAnimeSearch):

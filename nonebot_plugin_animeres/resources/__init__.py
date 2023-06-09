@@ -1,19 +1,18 @@
-from typing import Dict, Optional, Type
-from nonebot.log import logger
+from typing import Dict, Type, Optional
 
 from httpx import ConnectError
+from nonebot.log import logger
+
+from ..config import plugin_config
+from ..internal import BaseAnimeSearch
+from .anoneko import AnimeSearch as AnonekoSearch
 from .myheartsite import AnimeSearch as MyHeartSiteSearch
 from .dongmanhuayuan import AnimeSearch as DongManHuaYuanSearch
-from .anoneko import AnimeSearch as AnonekoSearch
-
-from ..internal import BaseAnimeSearch
-from ..config import plugin_config
-
 
 site: Dict[str, Type[BaseAnimeSearch]] = {
     MyHeartSiteSearch.name: MyHeartSiteSearch,
     DongManHuaYuanSearch.name: DongManHuaYuanSearch,
-    AnonekoSearch.name: AnonekoSearch
+    AnonekoSearch.name: AnonekoSearch,
 }
 
 
@@ -35,12 +34,12 @@ async def search(keyword: str) -> Optional[BaseAnimeSearch]:
             print(anime_list)
         ```
     """
-    if plugin_config.animeres_site is not None: # 当配置项中有填写资源站点的情况下
+    if plugin_config.animeres_site is not None:  # 当配置项中有填写资源站点的情况下
         logger.info(f"使用资源站点 '{plugin_config.animeres_site}'")
-        if anime_search := site.get(plugin_config.animeres_site):   # 获取对应资源站点
+        if anime_search := site.get(plugin_config.animeres_site):  # 获取对应资源站点
             try:
                 search_ = anime_search()
-                if await search_.search(keyword):   # 进行搜索
+                if await search_.search(keyword):  # 进行搜索
                     return search_
             except ConnectError:
                 logger.error(
@@ -50,7 +49,7 @@ async def search(keyword: str) -> Optional[BaseAnimeSearch]:
         search_ = site[i]()
         try:
             if await search_.search(keyword):
-                plugin_config.animeres_site = i # 当搜索成功后切换站点
+                plugin_config.animeres_site = i  # 当搜索成功后切换站点
                 logger.success(f"已切换至 '{i}' 站点")
                 return search_
         except ConnectError:

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-animeres"
-version = "1.0.1"
+version = "1.0.2"
 description = "动漫资源获取插件"
 authors = ["MelodyKnit <2711402357@qq.com>"]
 readme = "README.md"
@@ -17,6 +17,7 @@ nonebot2 = { version = "^2.0.0rc1", extras = ["fastapi"] }
 nonebot-adapter-onebot = { version = "^2.2.3", optional = true }
 
 [tool.poetry.group.dev.dependencies]
+pycln = "^2.1.2"
 isort = "^5.10.1"
 black = "^23.1.0"
 flake8 = "^4.0.1"

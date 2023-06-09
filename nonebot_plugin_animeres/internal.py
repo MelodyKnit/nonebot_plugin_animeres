@@ -1,10 +1,11 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List, Optional
-from fake_useragent import UserAgent
 
 from httpx import AsyncClient
+from fake_useragent import UserAgent
+
 from .config import plugin_config
-from .schemas import AnimeRes, Tag
+from .schemas import Tag, AnimeRes
 
 
 class BaseAnimeSearch(ABC):

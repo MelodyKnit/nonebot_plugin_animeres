@@ -1,8 +1,10 @@
 from typing import List
+
 from lxml import etree
-from ..internal import BaseAnimeSearch
-from ..schemas import AnimeRes, Tag
+
 from ..config import plugin_config
+from ..schemas import Tag, AnimeRes
+from ..internal import BaseAnimeSearch
 
 
 class AnimeSearch(BaseAnimeSearch):

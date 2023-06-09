@@ -1,14 +1,14 @@
 from nonebot import on_command
 from nonebot.typing import T_State
-from nonebot.params import CommandArg, ArgPlainText
 from nonebot.matcher import Matcher
 from nonebot.plugin import PluginMetadata
-from nonebot.adapters import Message, Bot, Event
+from nonebot.adapters import Bot, Event, Message
+from nonebot.params import CommandArg, ArgPlainText
 
-from .config import Config, plugin_config
 from .resources import search
-from .internal import BaseAnimeSearch
 from .utils import send_forward
+from .internal import BaseAnimeSearch
+from .config import Config, plugin_config
 
 anime_res_cmd = on_command(
     "资源", aliases={"动漫资源"}, priority=plugin_config.animeres_priority

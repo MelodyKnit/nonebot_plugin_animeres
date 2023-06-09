@@ -1,5 +1,7 @@
-from pydantic import BaseModel, Extra
-from typing import Optional, Union
+from typing import Union, Optional
+
+from pydantic import Extra, BaseModel
+
 from .config import plugin_config
 
 

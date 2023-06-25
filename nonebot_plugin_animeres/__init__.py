@@ -78,6 +78,9 @@ __helper__ = {
 __plugin_meta__ = PluginMetadata(
     name="动漫资源插件",
     description="根据关键字搜索动漫资源",
-    usage="资源 你的名字",
+    usage="使用资源命令，然后追加资源的名称，例如：\n资源 你的名字",
+    type="application",
+    homepage="https://github.com/MelodyKnit/nonebot_plugin_animeres",
     config=Config,
+    supported_adapters=None,
 )

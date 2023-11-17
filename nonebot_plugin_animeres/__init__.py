@@ -48,6 +48,7 @@ async def _(
     state: T_State,
     index: str = ArgPlainText(),
 ):
+    index = index.strip()
     anime_search: BaseAnimeSearch = state["anime_search"]
     if tag := await anime_search.get_tag(index):
         anime_list = await anime_search.get_resources(tag)

@@ -19,7 +19,9 @@ class AnimeSearch(BaseAnimeSearch):
             html.xpath("//b/text()"),
             html.xpath("//span[contains(@class, 'down_txt')]/a/@href"),
         ):
-            self.add_resource(AnimeRes(title=title, tag="动漫花园", size=size, link=link))
+            self.add_resource(
+                AnimeRes(title=title, tag="动漫花园", size=size, link=link)
+            )
         return bool(self)
 
     async def get_resources(self, tag: Tag) -> List[AnimeRes]:

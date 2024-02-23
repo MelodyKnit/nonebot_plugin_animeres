@@ -33,7 +33,9 @@ async def _(matcher: Matcher, state: T_State, param: str = ArgPlainText()):
                 msg.clear()
                 matcher.set_arg("index", msg + tags[0].name)
             else:
-                await matcher.send("选择哪种呢？\n" + "\n".join(repr(tag) for tag in tags))
+                await matcher.send(
+                    "选择哪种呢？\n" + "\n".join(repr(tag) for tag in tags)
+                )
         else:
             await matcher.finish("没有找到相关资源！看看是不是哪里写错了？")
     else:

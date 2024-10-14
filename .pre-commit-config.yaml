@@ -9,10 +9,10 @@ repos:
     rev: 5.13.2
     hooks:
       - id: isort
-        stages: [commit]
+        stages: [pre-commit]
 
   - repo: https://github.com/psf/black
-    rev: 24.3.0
+    rev: 24.10.0
     hooks:
       - id: black
-        stages: [commit]
+        stages: [pre-commit]

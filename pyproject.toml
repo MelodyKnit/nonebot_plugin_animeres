@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-animeres"
-version = "1.0.4"
+version = "1.0.5"
 description = "动漫资源获取插件"
 authors = ["MelodyKnit <2711402357@qq.com>"]
 readme = "README.md"
@@ -9,11 +9,11 @@ packages = [{include = "nonebot_plugin_animeres"}]
 keywords = ["nonebot", "nonebot2", "animeres", "anime"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 lxml = "^4.9.2"
-fake-useragent = "^1.1.3"
-httpx = ">=0.20.0,<1.0.0"
-nonebot2 = "^2.0.0rc1"
+fake-useragent = "^2.0.3"
+httpx = ">=0.26.0,<1.0.0"
+nonebot2 = "^2.4.1"
 nonebot-adapter-onebot = { version = "^2.2.3", optional = true }
 
 [tool.poetry.group.dev.dependencies]

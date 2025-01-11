@@ -37,7 +37,7 @@ class BaseAnimeSearch(ABC):
             self._client = AsyncClient(
                 headers=self.headers,
                 base_url=self.base_url or "",
-                proxies=plugin_config.animeres_proxy,
+                proxy=plugin_config.animeres_proxy,
                 trust_env=True,
                 timeout=600,
             )

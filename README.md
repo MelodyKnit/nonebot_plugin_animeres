@@ -31,6 +31,7 @@ ANIMERES_LENGTH=3                      # 每次发送的数量，用-1表示全�
 ANIMERES_FORMANT="{title}\n{magnet}"   # 发送的消息格式化
 ANIMERES_ONESKIP=true                  # 当只有一个选项时跳过
 ANIEMRES_PRIORITY=100
+ANIMERES_BLOCK=true
 
 ```
 

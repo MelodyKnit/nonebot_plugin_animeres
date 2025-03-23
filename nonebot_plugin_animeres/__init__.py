@@ -11,7 +11,10 @@ from .internal import BaseAnimeSearch
 from .config import Config, plugin_config
 
 anime_res_cmd = on_command(
-    "资源", aliases={"动漫资源"}, priority=plugin_config.animeres_priority
+    "资源",
+    aliases={"动漫资源"},
+    priority=plugin_config.animeres_priority,
+    block=plugin_config.animeres_block,
 )
 
 

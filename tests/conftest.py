@@ -5,6 +5,10 @@ from nonebug import NONEBOT_INIT_KWARGS
 
 def pytest_configure(config: pytest.Config) -> None:
     config.addinivalue_line("markers", "asyncio: mark test as async")
+    config.stash[NONEBOT_INIT_KWARGS] = {
+        "driver": "~none",
+        "command_start": {"", "/"},
+    }
 
 
 @pytest.fixture(scope="session", autouse=True)

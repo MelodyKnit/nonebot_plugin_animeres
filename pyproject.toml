@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nonebot-plugin-animeres"
-version = "1.0.6"
+version = "1.0.7"
 description = "动漫资源获取插件"
 authors = ["MelodyKnit <2711402357@qq.com>"]
 readme = "README.md"
@@ -22,6 +22,9 @@ isort = "^5.10.1"
 black = "^23.1.0"
 flake8 = "^4.0.1"
 pre-commit = "^3.0.0"
+pytest = "^7.0.0"
+pytest-asyncio = "^0.20.0"
+nonebug = "^0.3.1"
 
 [tool.black]
 line-length = 88
@@ -43,3 +46,5 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+

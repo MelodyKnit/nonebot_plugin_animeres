@@ -1,11 +1,8 @@
 from typing import Union, Optional
-
-from pydantic import Extra, BaseModel
-
-from .config import plugin_config
+from .config import plugin_config, BaseModel
 
 
-class AnimeRes(BaseModel, extra=Extra.allow):
+class AnimeRes(BaseModel):
     """动漫资源"""
 
     title: str  # 标题
@@ -13,6 +10,9 @@ class AnimeRes(BaseModel, extra=Extra.allow):
     size: Optional[str] = None  # 大小
     link: Optional[str] = None  # 跳转链接
     magnet: str = ""  # 种子链接
+
+    class Config:
+        extra = "allow"
 
     def to_string(self) -> str:
         return plugin_config.animeres_format.format(**self.dict())
@@ -34,6 +34,7 @@ class Tag(BaseModel):
             return self.id == value
         elif isinstance(value, str):
             return self.name == value
+        return NotImplemented
 
     def __hash__(self) -> int:
         return hash(self.name)

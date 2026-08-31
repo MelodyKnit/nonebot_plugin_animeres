@@ -15,6 +15,7 @@ def pytest_configure(config: pytest.Config) -> None:
 def load_bot(nonebug_init: None) -> None:
     try:
         from nonebot.adapters.onebot.v11 import Adapter
+
         driver = nonebot.get_driver()
         driver.register_adapter(Adapter)
     except ImportError:

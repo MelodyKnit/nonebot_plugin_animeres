@@ -1,4 +1,3 @@
-from typing import List
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -36,5 +35,7 @@ async def test_search_not_found(app: App):
             ctx.receive_event(bot, event)
             ctx.should_pass_rule()
             ctx.should_pass_permission()
-            ctx.should_call_send(event, "没有找到相关资源！看看是不是哪里写错了？", True)
+            ctx.should_call_send(
+                event, "没有找到相关资源！看看是不是哪里写错了？", True
+            )
             ctx.should_finished(anime_res_cmd)

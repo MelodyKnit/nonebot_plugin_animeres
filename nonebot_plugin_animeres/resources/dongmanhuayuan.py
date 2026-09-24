@@ -1,4 +1,5 @@
 from typing import List
+from urllib.parse import quote
 
 from lxml import etree
 
@@ -12,7 +13,7 @@ class AnimeSearch(BaseAnimeSearch):
     base_url = "https://www.dongmanhuayuan.com"
 
     async def search(self, keyword: str) -> bool:
-        response = await self.client.get(f"search/{keyword}/")
+        response = await self.client.get(f"search/{quote(keyword.strip())}/")
         html = etree.HTML(response.text, None)
         for title, size, link in zip(
             html.xpath("//a[@class='uk-text-break']/@title"),
@@ -30,5 +31,6 @@ class AnimeSearch(BaseAnimeSearch):
             if anime.link:
                 response = await self.client.get(anime.link)
                 html = etree.HTML(response.text, None)
-                anime.magnet = html.xpath("//input[@id='magnet_one']/@value")
+                magnets = html.xpath("//input[@id='magnet_one']/@value")
+                anime.magnet = str(magnets[0]).strip() if magnets else ""
         return anime_list

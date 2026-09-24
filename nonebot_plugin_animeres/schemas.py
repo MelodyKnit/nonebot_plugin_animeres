@@ -13,6 +13,7 @@ class AnimeRes(BaseModel):
 
     class Config:
         extra = "allow"
+        validate_assignment = True
 
     def to_string(self) -> str:
         return plugin_config.animeres_format.format(**self.dict())

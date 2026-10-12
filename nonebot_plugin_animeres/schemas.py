@@ -1,5 +1,6 @@
 from typing import Union, Optional
-from .config import plugin_config, BaseModel
+
+from .config import BaseModel, plugin_config
 
 
 class AnimeRes(BaseModel):

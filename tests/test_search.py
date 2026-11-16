@@ -1,4 +1,3 @@
-from typing import List
 from unittest.mock import AsyncMock, patch
 
 import pytest
@@ -36,15 +35,17 @@ async def test_search_not_found(app: App):
             ctx.receive_event(bot, event)
             ctx.should_pass_rule()
             ctx.should_pass_permission()
-            ctx.should_call_send(event, "没有找到相关资源！看看是不是哪里写错了？", True)
+            ctx.should_call_send(
+                event, "没有找到相关资源！看看是不是哪里写错了？", True
+            )
             ctx.should_finished(anime_res_cmd)
 
 
 @pytest.mark.asyncio
 async def test_dongmanhuayuan_magnet_and_search():
     """测试 dongmanhuayuan 站点解析，验证 magnet 提取与字符串渲染"""
+    from nonebot_plugin_animeres.schemas import Tag, AnimeRes
     from nonebot_plugin_animeres.resources.dongmanhuayuan import AnimeSearch
-    from nonebot_plugin_animeres.schemas import AnimeRes, Tag
 
     searcher = AnimeSearch()
 
@@ -90,4 +91,3 @@ async def test_dongmanhuayuan_magnet_and_search():
         # 验证 validate_assignment 起效：若赋非 str 类型应报错
         with pytest.raises(Exception):
             anime.magnet = ["magnet:?xt=urn:btih:INVALID"]
-
